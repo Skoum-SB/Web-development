@@ -1,19 +1,13 @@
 window.addEventListener("load", event => {
-	console.log("loaded");
 	main();
 });
 
-const onClick = event =>{
-	console.log("clicked!!");
-	console.log(event.clientX);
-}
+let MIN = 64;  // longueur minimum en pixel
+let MAX = 128; // longueur maximum en pixel
 
 const onMouseMove = event =>{
-	MIN = 64 ;  // longueur minimum en pixel
-	MAX = 128 ; // longueur maximum en pixel
-
 	y = event.clientY - document.getElementById('myElement').offsetTop;  // coordonnées y de la souris à partir du début de la section
-	imgs = document.getElementById('myElement').getElementsByTagName('img') ; // toutes les images du div sont modifiables grâce a imgs[index de l'image]
+	imgs = document.getElementById('myElement').getElementsByTagName('img'); // toutes les images du div sont modifiables grâce a imgs[index de l'image]
 	for(i=0 ; i<imgs.length ; i++) // on parcourt toutes les images
 	{
 		millieuImg = imgs[i].offsetTop + parseInt(imgs[i].style.height,10)/2 ; //Récupère la coordonnée en ordonnée du milieu d'une image à partir du début de la section
@@ -33,10 +27,16 @@ const onMouseMove = event =>{
 		if (opac > 0.1) // avec un minimum
 			imgs[i].style.opacity = opac;
 		else imgs[i].style.opacity = 0.1;
-
-
 	}
-	//console.log(delta);
+}
+
+const onMouseLeave = event =>{
+	imgs = document.getElementById('myElement').getElementsByTagName('img');
+	for(i=0 ; i<imgs.length ; i++){
+		imgs[i].style.opacity = 0.1;
+		imgs[i].style.width = MIN+"px";
+		imgs[i].style.height = MIN+"px";
+	}
 }
 
 const main = event => {
@@ -54,8 +54,8 @@ const main = event => {
 	//myElement.style.height="50px";
 	//myElement.style.backgroundColor="#0000FF";
 
-	myElement.addEventListener("click",onClick);
 	myElement.addEventListener("mousemove",onMouseMove);
+	myElement.addEventListener("mouseleave",onMouseLeave);
 	//document.body.onmousemove = event => {
   	//console.log(`Position de la souris : X = ${event.clientX} | Y = ${event.clientY}`);
 	//}
